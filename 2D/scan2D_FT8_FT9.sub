@@ -1,0 +1,32 @@
+universe      = vanilla
+initialdir    = /afs/cern.ch/user/l/lotan/smqawa/DCTools/cards-eft_ZZ2l2nu
+executable    = run_FT8_FT9_2D_all.sh
+
+# arguments: rangeX rangeY points
+arguments     = -15,15 -15,15 3721
+
+output        = logs/scan2D_FT8_FT9_$(ClusterId)_$(ProcId).out
+error         = logs/scan2D_FT8_FT9_$(ClusterId)_$(ProcId).err
+log           = logs/scan2D_FT8_FT9_$(ClusterId).log
+
+request_cpus   = 1
+request_memory = 8000M
++JobFlavour    = "tomorrow"
+
+should_transfer_files = True
+when_to_transfer_output = ON_EXIT
+
+# 必须上传的输入文件
+transfer_input_files = \
+  run_FT8_FT9_2D_all.sh, \
+  workspace_Run2_FT8_FT9_shape_SR_CR_combined.root, \
+  plot_2D_scan.py
+
+# 取回最终产物（按你的脚本输出命名）
+transfer_output_files = \
+  FT8_FT9_Run2_scipy.png, \
+  FT8_FT9_Run2_scipy.pdf, \
+  log_scan_FT8_FT9_Run2_FT8_FT9_shape_SR_CR_combined.txt, \
+  log_plot_FT8_FT9_Run2_FT8_FT9_shape_SR_CR_combined.txt
+
+queue 1
