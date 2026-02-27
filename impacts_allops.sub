@@ -1,0 +1,29 @@
+universe      = vanilla
+initialdir    = /afs/cern.ch/user/l/lotan/smqawa/DCTools/cards-eft_ZZ2l2nu
+executable    = run_impacts.sh
+
+# OP parallel (range handled inside script)
+arguments     = $(OP) 8
+
+output        = logs/impacts_$(OP)_$(ClusterId)_$(ProcId).out
+error         = logs/impacts_$(OP)_$(ClusterId)_$(ProcId).err
+log           = logs/impacts_$(OP)_$(ClusterId).log
+
+request_cpus   = 8
+request_memory = 8000M
++JobFlavour    = "tomorrow"
+
+should_transfer_files = YES
+when_to_transfer_output = ON_EXIT
+
+# 传脚本 + 对应 workspace（datacard 不需要了）
+transfer_input_files = run_impacts.sh,workspace_$(OP)_Run2_shape_SR_CR_combined.root
+
+# 回传关键结果
+transfer_output_files = impacts_$(OP).json,impacts_$(OP).png,impacts_$(OP).pdf,log_initialFit_$(OP).txt,log_doFits_$(OP).txt
+
+queue OP in (
+  FM0,FM1,FM2,FM3,FM4,FM5,FM7,
+  FS0,FS1,FS2,
+  FT0,FT1,FT2,FT3,FT4,FT5,FT6,FT7,FT8,FT9
+)
